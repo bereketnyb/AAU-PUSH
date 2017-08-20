@@ -1,0 +1,81 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+	AAU Push | {{section.code}}
+{% endblock %}
+
+
+
+{% block section_code %}
+Year {{section.year}} | Section {{section.section_number}} | Code: {{section.code}}
+{% endblock %}
+
+
+
+{% block content %}
+<br />
+<table width="100%", border="1" cellpadding="0px" align = "center">
+	<tr>
+	<td>
+			<center><h3>Announcements</h3></center>
+	</td>
+	</tr>
+	<tr>
+	
+	<td>
+	 {%if not announcements%}
+     		<center><br>No announcements right now, Check later!</center>
+     	{%endif%}	
+     		<ul>
+   			{%for announcement in announcements%}
+   			<li><b>{{announcement.lecturer}}:</b>
+   			{% if announcement.is_urgent %}
+   				<font color='#CC0000'>{{announcement.message}}</font>
+   			{% else %}
+   			{{announcement.message}}
+   			{% endif %}
+   			
+   			{% if announcement.file1 %}
+   			<br>
+   			{% load static %}
+            <a href="{% static announcement.get_link_one %}"><img src="{% static announcement.get_link_one %}" width="400px" height="200px"/></a>
+   			{% endif %}
+   			{% if announcement.file2 %}
+   				{% load static %}
+            			<a href="{% static announcement.get_link_two %}"><img src="{% static announcement.get_link_two %}"  width="100px" height="100px"/></a>
+   			{% endif %}
+   			<br>
+   				{{announcement.pub_date}}</li>
+   			<br>
+      			{%endfor%}
+      		</ul>
+     	</td>
+    	</tr>  
+    	{%for upload in this_week%}
+      		{% if forloop.first %}
+      			<tr>
+				<td>
+					<center><h3>Uploads This Week</h3></center>
+				</td>
+				</tr>
+				<tr>
+				<td>
+      			{%endif%}
+                <ul>
+      			<li> 
+      				<a id="file" href="{% url 'File' upload.id%}">[{{ upload.ext | upper}}] {{upload.name | capfirst}}</a> - 
+      				<a href="{% url 'course_view' section.code upload.course %}">
+      				{{upload.course}}</a>:
+      				{{upload.description}}
+      			<br>
+      			</li>
+                </ul>
+     		{%endfor%}
+                
+     	</td>
+    	</tr>
+    </table>
+    <br /><br />
+    <center><a href="{% url 'Courses' section.code %}">View All Files Uploaded</a></center>
+
+{% endblock %}

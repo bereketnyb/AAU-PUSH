@@ -1,0 +1,52 @@
+{% extends "main/base.html" %}
+
+
+{% block title %}
+	AAU Push | {{section.code}} Courses
+{% endblock %}
+
+
+{% block section_code %}
+Year {{section.year}} | Section {{section.section_number}} | Code: {{section.code}}
+{% endblock %}
+
+
+{% block content %}
+<br />
+<center><a href="{% url 'Section' section.code%}">Back to Announcements</a> </center>
+<br>
+
+
+<table width=100% border="1">
+   	<thead>
+   		<tr>
+     			<th width="50%">Upload Folders</th>
+     			<th width="50%">Latest Uploads</th>
+   		</tr> 
+   	</thead>
+   	       				
+   		{% for material in materials %}
+        	<tr>
+        	 	<td>
+        	  		<ul>
+        	  			<li>
+        	  				<a href="{% url 'course_view' section.code material.course.get_link_name %}"> {{material.course}}
+        	  				</a>
+        	  			</li>
+        	  		</ul>
+        	  	</td>
+        	  	
+        	  	<td>
+        	   		<ul>
+        	   			<li>
+        	   				<a id="file" href="{% url 'File' material.id %}">{% if material.ext%}[{{material.ext | upper}}]{%endif%} {{material.name | capfirst}}
+        	   				</a>
+        	   			</li>
+        	   		</ul>
+        	   	</td>
+        	   </tr>	
+        	{%endfor%}	
+      		
+      	<tfoot>Click on the course name to see all files.</tfoot> 
+</table> 
+{% endblock %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+	
+    <head>
+     <title>Quick Page</title>
+     
+     <style>
+     h1 {
+	    text-align:center ; 
+	    color: #333; 
+        font-family: Georgia, 'Times New Roman', Times, serif; 		  	            font-size: 2rem;
+	}
+	#page_header {
+		width:100%;
+	}
+	#page_content {
+		width:60%;
+		float:left;
+	}
+	#contact_at {
+		float:right;
+		width:30%;
+		text-align:center;
+	}
+	#contact_info {
+		float:left;
+		width:60%;
+	}
+	#recent_posts {
+		float:right;
+		width:40%;
+		text-align:center;
+	}
+	#recent_posts > nav > h4,a,img {
+		display:inline;
+		}
+		
+     </style>
+    </head>   
+   
+   
+    <body>
+    <header id="page_header">
+      <h1>QUICK PAGE</h1>
+     </header>
+     
+    <section id="page_content">
+      <article>
+       <header>
+        <h3>{{page.title}}</h3>
+        {% load static %}
+        <img src="{% static page.get_link_one %}" width="150" height="100">
+       </header>
+       
+       <p>{{page.content1}}</p>
+       {% load static %}
+       <img src="{% static page.get_link_two %}" width="250" height="150">
+       <p>{{page.content2}}</p> 
+      </article>
+       
+      <footer>
+       <article id="contact_info">
+        <header>
+        <h4>{{page.contact.name}}</h4>
+        </header>
+        
+        <p>{{page.contact.bio}}</p>
+       </article>
+        
+       <aside id="contact_at">
+        <h4>Contact At</h4>
+        <p>Phone:{{page.contact.phone}}</p>
+        <p>Email:{{page.contact.email}}</p>
+       </aside>
+      
+      </footer>
+      
+     </section>
+     
+     <section id="recent_posts">
+    <header>
+      <h3>Archives</h3>
+      </header>
+      
+      <nav>
+       {% for archive in archives %}
+        <img src="{% static archive.get_link_one %}" width="40" height="40">
+        <h4><a href="{% url 'Quick_Page' archive.id %}">{{archive.title}}</a></h4>
+       {% endfor %}
+       
+      </nav>
+     
+     </section>
+     
+    </body>
+ 
+</html>

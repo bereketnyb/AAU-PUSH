@@ -1,0 +1,35 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+	AAU Push - First Login Page
+{% endblock %}
+
+{% block extra %}
+	| Welcome, {{user.first_name}} 
+{% endblock %}
+ 
+ 
+ {% block content %}
+<center>
+<br>
+<p>Please fill out the form below and submit it to go to your account.</p>
+<h5>You can choose multiple choices by holding down the CTRL key while choosing.</h5>
+
+ <table border = "2px" width="50%" align = "center">
+ <tr>
+  <td>  
+	<form action="{% url 'first_login' %}" method="post">
+		{%csrf_token%} {{form.as_p}}
+		<label for="password" >Please enter your new password:</label>
+		<input id="password" type="text" name="new_password" required/>
+		<br><br>
+		<input type="submit" value="Submit" />
+		<br><br>
+	</form>
+  </td>
+  </tr>
+</table>
+<p>If a section or course is missing, please inform Addis 0913350082.</p>
+
+</center>
+{% endblock %}

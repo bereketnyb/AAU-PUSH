@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+	AAU Push
+{% endblock %}
+
+
+{% block content %}
+<br><br>
+<center>
+		<p>Choose your section</p>
+		<table class="section">
+			<tr class="section">
+     			{% for section in sections %}
+				{% ifchanged section.year %}
+          				</tr><tr class="section">
+          				<th class="section">Year {{section.year}}</th>
+        			{% endifchanged %}
+       				<td class="section">
+       					<a href="{% url 'Section' section.code%}">Section {{section.section_number}}</a>
+       				</td>
+	 		{%endfor%}	
+     			</tr>
+		</table>
+</center>
+{% endblock %}

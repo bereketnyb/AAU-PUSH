@@ -1,0 +1,54 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+	AAU Push | {{course.name}}
+{% endblock %}
+
+
+{% block section_code %}
+Year {{section.year}} | Section {{section.section_number}} | Code: {{section.code}}
+{% endblock %}
+
+
+{% block content %}
+	<br>
+	<a class="ann" href="{% url 'Section' section.code%}">&ensp;Back to Announcements</a>
+	<a id="switch" href="{% url 'course_view_multi' section.code course.get_link_name %}">Multiple Download Mode&ensp;</a> 
+	<br>
+	<br>
+	{% if materials %}
+	<table width=100% border="1" cellpadding="">
+  		<caption>
+  		<h3>Files from {{ course.name }}</h3>
+  		</caption>
+   		<tr>
+     			<th width="30%">File Name</th>
+     			<th width="50%">Description</th>
+     			<th width="20%">Upload Date</th>
+   		</tr> 
+   			{% for material in materials %}
+    				<tr>
+     					 <td>
+     					 		<ul>
+     					 			<li>
+     					 				<a id="file" href="{% url 'File' material.id %}">[{{material.ext | upper}}] {{material.name | capfirst}}
+        	   							</a>
+     					 			</li>
+     					 		</ul>
+     					 </td>
+      					 <td>
+      					 	{% filter capfirst %}{{material.description}}{%endfilter%}
+      					 </td>
+      					 <td>
+      					 	{{material.pub_date}}
+      					 </td>
+    				</tr>
+   			{%endfor%}  
+   	</table>
+   	{%else%}
+   	<br>
+   	<center>No files to view, tell your teachers to upload!</center>
+   	{%endif%}
+   	
+	
+{% endblock %}

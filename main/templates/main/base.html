@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>	
+				{% block title %}
+				{% endblock %}
+		</title>
+		<script>
+				{% block script %}
+				{% endblock %}
+		</script>
+		<style>
+			html {
+				 font-size: 16px;
+			} 
+			
+			h1 {	text-align:center ; 
+		  		color: #333; 
+		  		font-family: Georgia, 'Times New Roman', Times, serif;
+		  		font-size: 2rem;}
+		  
+		  	h2 {
+		  		text-align:center; 
+		  		color: #333; 
+		  		font-family: Georgia, 'Times New Roman', Times, serif;
+		  		font-size: 1.5rem;}
+		  		
+		  	h3 {
+		  		text-align:center ; 
+		  		color: #333; 
+		  		font-family: Georgia, 'Times New Roman', Times, serif;
+		  		font-size: 1.2rem;}
+		  		
+			body {
+		  		font-family: Verdana, Trebuchet MS, "Helvetica", "Arial", sans-serif;
+				line-height: 1.5;
+				color: #555;
+				font-size: 1rem;}
+				
+			.section { border-collapse: collapse; }
+			
+		  	tr.section { display: block; float:left; }
+		  	
+		  	th.section { text-align:center; width:80px; padding:8px; }
+		  	
+		  	td.section { display: block; text-align:center; width:80px; padding:8px; }
+		      		
+		      	a {
+				text-decoration: none;
+		      		color: #4480b7;}
+		      	
+		      	#file {
+		      		color: #799f44;
+		      	}
+		      	
+		      	#switch{
+		      		float: right;
+		      	}
+		      	
+		      	q {
+		      		font-family: Copperplate, Papyrus;
+		      		font-size: 1.5rem;
+		      	}
+		      	
+		      	footer {
+		      	position:absolute;  
+		      	bottom:0px;     
+		      	 
+		      	}
+		      	
+		      	
+  		  </style>
+	</head>
+	
+	<body bgcolor='#fffffa'>
+		<header>
+			<center> 
+			
+  				<a href="{% url 'Home' %}"><h1>AAU PUSH</h1></a>
+				<h2>Computer Science Department {% block extra %}{% endblock %}</h2>
+				<h3>
+					{% block section_code %}
+					{% endblock %}
+				</h3>
+				<hr />
+  			</center>
+  		</header>
+
+		
+			{% block content %}
+  			{% endblock %}
+	<br><br>
+	<center>
+	<q>{{quote.quote}}</q><br>- {{quote.author}}<br>
+	<a href="/About_us"><font color=#333 size="100px">&bull;</font></a>
+	<a href="/Push_Page/1"><font color=#4480b7 size="20px">&bull;</font></a>
+	<a href="/Blog_post"><font color=#cc0000 size="20px">&bull;</font></a>
+	<a href="/Blog_post2"><font color=#799f44 size="20px">&bull;</font></a>
+	</center>
+	</body>
+        <footer>
+            
+        </footer>
+</html>

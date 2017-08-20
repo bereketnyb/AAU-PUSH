@@ -1,0 +1,42 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+	AAU Push | {{course.name}}
+{% endblock %}
+
+
+{% block section_code %}
+Year {{section.year}} | Section {{section.section_number}} | Code: {{section.code}}
+{% endblock %}
+
+
+{% block content %}
+	<br>
+	<a class="ann" href="{% url 'Section' section.code%}">&ensp;Back to Announcements</a>
+	<a id="switch" href="{% url 'Courses' section.code %}">Back to Course List&ensp;</a> 
+	<br>
+	<br>
+	{% if materials%}
+	<form action="{% url 'course_view_multi' section.code course.name%}" method="post">
+  		{% csrf_token %}
+  		<table border="1" width=100% cellpadding="6px">
+  		{% for material in materials%}
+  			<tr>
+  			<td width=25px>
+  				<center><input type="checkbox" name={{material.id}} /> </center>
+  			</td>
+  			<td>
+  			{{material.name | capfirst}}
+  			</td>
+  			</tr>
+  		{%endfor%}
+  		</table>
+  	<br>
+  	<input type="submit" value="Download"/>
+ 	</form>
+ 	{% else %}
+ 	<br>
+ 	<center>No files yet, tell your teachers to upload!</center>
+ 	{%endif%}
+	
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "main/base.html" %}
+
+
+{% block title %}
+	AAU Push | Login
+{% endblock %}
+
+
+{% block extra %}
+	| Login
+{% endblock %}
+
+
+{% block content %}
+<br><br><br>
+<form action= "{%url 'login' %}" method='post'>
+{% csrf_token %}
+	<table border=0 align="center">
+		<tr>
+			<td>
+				<label for='username'>Username:</label> 
+			</td>
+			<td>
+				<input class="log" type='text' name='username' /></br>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label  for = 'password'>Password:</label>
+			</td>
+			<td>
+				<input class="log" type='password' name='password' /></br>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 align='right'>
+				<input class="button" type="submit" value="Login" />
+		</td>
+		</tr>
+	</table>
+<br><br><br>
+<center><font color='red'>{{ message }}</font></center>
+</form>
+<br><br>
+
+{% endblock %}
