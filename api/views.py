@@ -189,3 +189,11 @@ def materials(request):
 	output += "]"
 
 	return HttpResponse(output, content_type='application/json')
+
+def section_exists(request):
+	section_code = request.GET.get('section_code')
+
+	if Section.objects.filter(code=section_code).count() < 1:
+		return HttpResponse("false")
+	else:
+		return HttpResponse("true")
