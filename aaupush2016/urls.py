@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^first_login/$',views.first_login, name='first_login'),
     url(r'^Push_Page/', include('push_page.urls')),
     url(r'^admin/', admin.site.urls),
+	url(r'^api/', include('api.urls')),
 ]

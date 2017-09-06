@@ -84,7 +84,7 @@ def login_view(request):
     if not request.POST:
         if request.user.is_authenticated():
            return redirect('portal')
-        quote = Quote.objects.get(id=1)
+        quote = Quote.objects.get(id=3)
         return render(request, 'main/login.html',{'quote':quote})
     username = request.POST.get('username')
     password = request.POST.get('password')
