@@ -85,7 +85,7 @@ def announcements(request):
 	query = Q()
 
 	if request.GET.get('sections'):
-		section_codes = request.GET.get('section').split('-')
+		section_codes = request.GET.get('sections').split('-')
 		announcements = Announcement.objects
 
 		for section_code in section_codes:
