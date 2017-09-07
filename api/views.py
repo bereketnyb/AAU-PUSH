@@ -99,7 +99,7 @@ def announcements(request):
                         for lecturer in lecturers:
                                 query.add(Q(lecturer = lecturer), Q.OR)
                         announcements = announcements | section.announcement_set.filter(query)
-
+                        announcements = announcements.distinct()
         # Apply filter
         if request.GET.get('id'):
                 announcements = announcements.filter(id__gt=int(request.GET.get('id')))
