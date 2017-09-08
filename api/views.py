@@ -78,6 +78,7 @@ def courses(request):
         return HttpResponse(output, content_type='application/json')
 
 def announcements(request):
+        announcements = Announcement.objects.filter(id=10)
         #filter query
         query = Q()
 
@@ -88,7 +89,6 @@ def announcements(request):
                         query.add(Q(section=section), Q.OR)
                 announcements = Announcement.objects.filter(query).distinct()
         elif request.GET.get('course_section'):
-                announcements = Announcement.objects
                 course_section_list = request.GET.get('course_section').split('-')
                 for course_section in course_section_list:
                         course = get_object_or_404(Course, pk=int(course_section.split(':')[0]))
@@ -99,8 +99,9 @@ def announcements(request):
                         for lecturer in lecturers:
                                 query.add(Q(lecturer = lecturer), Q.OR)
                         announcements = announcements | section.announcement_set.filter(query)
-                        announcements = announcements.distinct()
+                announcements = announcements.distinct()
         # Apply filter
+        announcements = announcements.exclude(id=10)
         if request.GET.get('id'):
                 announcements = announcements.filter(id__gt=int(request.GET.get('id')))
 
@@ -129,8 +130,8 @@ def announcements(request):
         return HttpResponse(output, content_type='application/json')
 
 def materials(request):
+        materials = Material.objects.filter(id=20)
         if request.GET.get('course_section'):
-                materials = Material.objects
                 course_section_list = request.GET.get('course_section').split('-')
                 for course_section in course_section_list:
                         course = get_object_or_404(Course, pk=int(course_section.split(':')[0]))
@@ -138,20 +139,20 @@ def materials(request):
                         materials = materials | Material.objects.filter(course=course).filter(section=section)
         else:
                 #Filter query
-                query = Q()
+                query = Q()                
                 if request.GET.get('sections'):
                         section_codes = request.GET.get('sections').split('-')
                         for section_code in section_codes:
                                 section = get_object_or_404(Section, code = section_code)
                                 query.add(Q(section=section),Q.OR)
+                        materials = Material.objects.filter(query)    
                 elif request.GET.get('courses'):
                         course_ids = request.GET.get('courses').split('-')
                         for course_id in course_ids:
                                 course = get_object_or_404(Course, pk=int(course_id))
                                 query.add(Q(course=course), Q.OR)
-                 
-                # Apply Filters
-                materials = Material.objects.filter(query)         
+                        materials = Material.objects.filter(query)
+        materials = materials.exclude(id=20)
         if request.GET.get('id'):
                 announcements = announcements.filter(id__gt=int(request.GET.get('id')))
 
