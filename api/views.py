@@ -80,15 +80,12 @@ def courses(request):
 def announcements(request):
         #filter query
         query = Q()
-
         if request.GET.get('sections'):
                 section_codes = request.GET.get('sections').split('-')
                 for section_code in section_codes:
                         section = get_object_or_404(Section, code=section_code)
                         query.add(Q(section=section), Q.OR)
-                announcements = Announcement.objects.filter(query).distinct()
         elif request.GET.get('course_section'):
-                announcements = Announcement.objects
                 course_section_list = request.GET.get('course_section').split('-')
                 for course_section in course_section_list:
                         course = get_object_or_404(Course, pk=int(course_section.split(':')[0]))
@@ -97,10 +94,11 @@ def announcements(request):
                         if len(lecturers) < 1:
                                 continue
                         for lecturer in lecturers:
-                                query.add(Q(lecturer = lecturer), Q.OR)
-                        announcements = announcements | section.announcement_set.filter(query)
-                        announcements = announcements.distinct()
+                                query.add(Q(lecturer = lecturer,section=section), Q.OR)
+        else:
+                return HttpResponse("Incorrect API request format. Refer to the docmumentaion.")
         # Apply filter
+        announcements = Announcement.objects.filter(query).order_by('-pub_date').distinct()
         if request.GET.get('id'):
                 announcements = announcements.filter(id__gt=int(request.GET.get('id')))
 
@@ -129,29 +127,28 @@ def announcements(request):
         return HttpResponse(output, content_type='application/json')
 
 def materials(request):
+        #Filter query
+        query = Q() 
         if request.GET.get('course_section'):
-                materials = Material.objects
                 course_section_list = request.GET.get('course_section').split('-')
                 for course_section in course_section_list:
                         course = get_object_or_404(Course, pk=int(course_section.split(':')[0]))
                         section = get_object_or_404(Section, code=course_section.split(':')[-1])
-                        materials = materials | Material.objects.filter(course=course).filter(section=section)
+                        query.add(Q(section=section,course=course),Q.OR)              
+        elif request.GET.get('sections'):
+                section_codes = request.GET.get('sections').split('-')
+                for section_code in section_codes:
+                        section = get_object_or_404(Section, code = section_code)
+                        query.add(Q(section=section),Q.OR)    
+        elif request.GET.get('courses'):
+                course_ids = request.GET.get('courses').split('-')
+                for course_id in course_ids:
+                        course = get_object_or_404(Course, pk=int(course_id))
+                        query.add(Q(course=course), Q.OR)
         else:
-                #Filter query
-                query = Q()
-                if request.GET.get('sections'):
-                        section_codes = request.GET.get('sections').split('-')
-                        for section_code in section_codes:
-                                section = get_object_or_404(Section, code = section_code)
-                                query.add(Q(section=section),Q.OR)
-                elif request.GET.get('courses'):
-                        course_ids = request.GET.get('courses').split('-')
-                        for course_id in course_ids:
-                                course = get_object_or_404(Course, pk=int(course_id))
-                                query.add(Q(course=course), Q.OR)
-                 
-                # Apply Filters
-                materials = Material.objects.filter(query)         
+                return HttpResponse("Incorrect API request format. Refer to the docmumentaion.")
+        #Apply filter
+        materials = Material.objects.filter(query).order_by('-pub_date').distinct()
         if request.GET.get('id'):
                 announcements = announcements.filter(id__gt=int(request.GET.get('id')))
 
