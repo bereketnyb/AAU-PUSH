@@ -128,18 +128,18 @@ def announcements(request):
 
 def materials(request):
         #Filter query
-        query = Q() 
+        query = Q()
         if request.GET.get('course_section'):
                 course_section_list = request.GET.get('course_section').split('-')
                 for course_section in course_section_list:
                         course = get_object_or_404(Course, pk=int(course_section.split(':')[0]))
                         section = get_object_or_404(Section, code=course_section.split(':')[-1])
-                        query.add(Q(section=section,course=course),Q.OR)              
+                        query.add(Q(section=section,course=course),Q.OR)
         elif request.GET.get('sections'):
                 section_codes = request.GET.get('sections').split('-')
                 for section_code in section_codes:
                         section = get_object_or_404(Section, code = section_code)
-                        query.add(Q(section=section),Q.OR)    
+                        query.add(Q(section=section),Q.OR)
         elif request.GET.get('courses'):
                 course_ids = request.GET.get('courses').split('-')
                 for course_id in course_ids:
@@ -181,3 +181,25 @@ def section_exists(request):
                 return HttpResponse("false")
         else:
                 return HttpResponse("true")
+
+def sections(request):
+	study_field = get_object_or_404(StudyField, pk=int(request.GET.get('study_field_id')))
+
+	sections = Section.objects.filter(studyfield = study_field)
+
+	#JSON output
+	#Start json array
+	output = "[";
+
+	for section in sections:
+		output += "{"
+		output += "\"code\":" + section.code
+		output += "},"
+
+	# remove the last list separator comma
+	output = output[::-1].replace(",", "", 1)[::-1]
+
+	#end of json array
+	output += "]"
+
+	return HttpResponse(output, content_type='application/json')

@@ -9,5 +9,6 @@ urlpatterns = [
 	url(r'^courses', views.courses, name="courses"),
 	url(r'^announcements', views.announcements, name="announcements"),
 	url(r'^materials', views.materials, name="materials"),
-	url(r'^section_exists', views.section_exists, name="section_exists")
+	url(r'^section_exists', views.section_exists, name="section_exists"),
+	url(r'^sections', views.sections, name="sections"),
 ]
